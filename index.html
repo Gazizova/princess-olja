@@ -256,7 +256,8 @@ section { position:relative; }
 /* ── RESPONSIVE ── */
 @media(max-width:800px){
   .split { grid-template-columns:1fr; }
-  .photo-zone { min-height:65vw; }
+  .photo-zone { min-height:75vw; max-height:90vw; }
+  .photo-zone .ph-img { object-position:top center; }
   .text-side  { padding:52px 32px; }
   .collage-zone { min-height:110vw; }
   .icon-row { flex-wrap:wrap; gap:20px; }
@@ -264,11 +265,15 @@ section { position:relative; }
   .cp-b{ width:38%; height:26%; }
   .cp-c{ width:40%; height:26%; }
   .cp-d{ width:40%; height:28%; }
-  .ch-p { font-size:1rem; }
-  .flist li { font-size:1rem; }
-  .ctr-block { font-size:1rem; }
+  .ch-p { font-size:1.1rem; }
+  .ch-sub { font-size:1.15rem; }
+  .ch-title { font-size:clamp(2rem,8vw,2.8rem); }
+  .flist li { font-size:1.1rem; }
+  .ctr-block { font-size:1.1rem; }
+  .icon-item span { font-size:1.05rem; }
   .epi-inner { padding:80px 28px 100px; }
-  .epi-p { font-size:1rem; } .epi-it { font-size:1.125rem; }
+  .epi-p { font-size:1.1rem; } .epi-it { font-size:1.2rem; }
+  .epi-title { font-size:clamp(2rem,7vw,3rem); }
   .text-side { padding:52px 28px; }
 }
 
@@ -482,7 +487,7 @@ section { position:relative; }
       <div class="epi-tag">Епілог</div>
     </div>
 
-    <h2 class="epi-title fu">З Днем Народження,<br>Принцесо Олю! 👑</h2>
+    <h2 class="epi-title fu">З Днем Народження,<br>Принцесо Олю!</h2>
 
     <span class="crown-big fu">👑</span>
 
