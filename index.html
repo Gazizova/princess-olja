@@ -66,34 +66,11 @@ section { position:relative; }
 /* ── PHOTO ZONE ── */
 .photo-zone {
   position: relative; display:block;
-  overflow: hidden; cursor: pointer;
-  min-height: 100vh;
+  overflow: hidden; min-height: 100vh;
   background: linear-gradient(140deg,#e9d9c7,#d5c0ab);
 }
-.photo-zone input[type=file] { display:none; }
-
-.ph-placeholder {
-  position:absolute; inset:0; z-index:3;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center; gap:14px;
-  transition: background .3s;
-}
-.photo-zone.has-photo .ph-placeholder { display:none; }
-
-.ph-ring {
-  width:72px; height:72px; border-radius:50%;
-  border:1.5px dashed var(--gold-lt);
-  display:flex; align-items:center; justify-content:center;
-  font-size:26px; color:var(--gold); opacity:.65;
-  transition: opacity .3s;
-}
-.photo-zone:hover .ph-ring { opacity:1; }
-.ph-label {
-  font-family:'Montserrat',sans-serif;
-  font-size:9px; letter-spacing:3px;
-  text-transform:uppercase; color:var(--text-md);
-}
-
+.photo-zone.has-photo 
+.photo-zone:hover 
 .photo-zone .ph-img {
   position:absolute; inset:0; width:100%; height:100%;
   object-fit:cover; display:none; z-index:2;
@@ -200,17 +177,9 @@ section { position:relative; }
   z-index:20;
 }
 .c-photo input[type=file] { display:none; }
-.c-photo .ph-placeholder {
-  position:absolute; inset:0; display:flex;
-  align-items:center; justify-content:center;
-  flex-direction:column; gap:6px;
-  background:transparent;
-}
-.c-photo.has-photo .ph-placeholder { display:none; }
-.c-photo img { width:100%; height:100%; object-fit:cover; display:none; }
+.c-photo .c-photo.has-photo .c-photo img { width:100%; height:100%; object-fit:cover; display:none; }
 .c-photo.has-photo img { display:block; }
-.c-photo .ph-label { font-size:9px; }
-
+.c-photo 
 /* collage positions */
 .cp-a { top:8%; left:6%; width:56%; height:48%; transform:rotate(-1.8deg); z-index:5; }
 .cp-b { top:4%; right:4%; width:36%; height:30%; transform:rotate(2.2deg); z-index:6; }
@@ -351,10 +320,7 @@ section { position:relative; }
 
     <!-- PHOTO LEFT -->
     <label class="photo-zone" id="pz0">
-      <input type="file" accept="image/*">
-      <div class="ph-placeholder">
-        <div class="ph-ring">+</div>
-        <div class="ph-label">Додати фото</div>
+      <div class="ph-label">Додати фото</div>
       </div>
       <img class="ph-img" alt="">
       <!-- right-side gradient fade so photo blends into text -->
@@ -434,10 +400,7 @@ section { position:relative; }
 
     <!-- PHOTO RIGHT -->
     <label class="photo-zone" id="pz1">
-      <input type="file" accept="image/*">
-      <div class="ph-placeholder">
-        <div class="ph-ring">+</div>
-        <div class="ph-label">Додати фото</div>
+      <div class="ph-label">Додати фото</div>
       </div>
       <img class="ph-img" alt="">
       <div class="ph-overlay" style="background:linear-gradient(to left,transparent 55%,var(--rose-pale) 100%);"></div>
@@ -464,23 +427,19 @@ section { position:relative; }
       <span class="sp" style="bottom:7%;left:14%;font-size:5px;opacity:.4;color:var(--dusty-rose);z-index:25;">✦</span>
 
       <label class="c-photo cp-a" id="cpa">
-        <input type="file" accept="image/*">
-        <div class="ph-placeholder"><div class="ph-ring" style="width:52px;height:52px;font-size:20px;">+</div><div class="ph-label">Фото 1</div></div>
+      <div class="ph-label">Фото 1</div></div>
         <img alt="">
       </label>
       <label class="c-photo cp-b" id="cpb">
-        <input type="file" accept="image/*">
-        <div class="ph-placeholder"><div class="ph-ring" style="width:40px;height:40px;font-size:16px;">+</div><div class="ph-label">Фото 2</div></div>
+      <div class="ph-label">Фото 2</div></div>
         <img alt="">
       </label>
       <label class="c-photo cp-c" id="cpc">
-        <input type="file" accept="image/*">
-        <div class="ph-placeholder"><div class="ph-ring" style="width:40px;height:40px;font-size:16px;">+</div><div class="ph-label">Фото 3</div></div>
+      <div class="ph-label">Фото 3</div></div>
         <img alt="">
       </label>
       <label class="c-photo cp-d" id="cpd">
-        <input type="file" accept="image/*">
-        <div class="ph-placeholder"><div class="ph-ring" style="width:40px;height:40px;font-size:16px;">+</div><div class="ph-label">Фото 4</div></div>
+      <div class="ph-label">Фото 4</div></div>
         <img alt="">
       </label>
     </div>
@@ -625,37 +584,7 @@ const fuObs = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.fu').forEach(el => fuObs.observe(el));
 
-// ── Photo upload (single-photo zones) ──
-function setupZone(el) {
-  if (!el) return;
-  const input   = el.querySelector('input[type=file]');
-  const img     = el.querySelector('.ph-img');
-  if (!input || !img) return;
-  input.addEventListener('change', function () {
-    const file = this.files[0];
-    if (!file) return;
-    const r = new FileReader();
-    r.onload = ev => { img.src = ev.target.result; el.classList.add('has-photo'); };
-    r.readAsDataURL(file);
-  });
-}
-['pz0','pz1'].forEach(id => setupZone(document.getElementById(id)));
 
-// ── Photo upload (collage photos) ──
-['cpa','cpb','cpc','cpd'].forEach(id => {
-  const el  = document.getElementById(id);
-  if (!el) return;
-  const inp = el.querySelector('input[type=file]');
-  const img = el.querySelector('img');
-  if (!inp || !img) return;
-  inp.addEventListener('change', function () {
-    const file = this.files[0];
-    if (!file) return;
-    const r = new FileReader();
-    r.onload = ev => { img.src = ev.target.result; el.classList.add('has-photo'); };
-    r.readAsDataURL(file);
-  });
-});
 
 // ── Gold particles (epilogue) ──
 const canvas = document.getElementById('particles');
